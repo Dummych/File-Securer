@@ -7,7 +7,7 @@ from visuals import timer, deb_print
 BASE_DIR = Path(__file__).parent  
 
 def check_folder(dir_pth):
-    files = [item for item in dir_pth.iterdir() if item.is_file()]    
+    files = [item for item in dir_pth.iterdir() if item.is_file() and item.name != ".gitkeep"]    
     for file in files:
         dir_pth = dir_pth / file
         with open(dir_pth, "rb") as f:
