@@ -70,7 +70,11 @@ def decrypt_data(user, u_files, pth):
     folder = BASE_DIR.parent / "data" / user
     if pth == None:
         dir = BASE_DIR.parent / "dec"
-        decrypt_data_func(u_files, folder, dir)
+        has_files = any(f.is_file() for f in folder.iterdir())
+        if has_files:    
+            decrypt_data_func(u_files, folder, dir)
+        elif not has_files:
+            deb_print("dir_none", Path(folder).name)
     else:
         dir = Path(pth)
         if dir.exists():
