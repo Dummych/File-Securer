@@ -1,1 +1,7 @@
-{}
+{
+    "a": {
+        "enc_salt": "20a98aacd1c18d882a9ecd2f16df25da",
+        "hash_": "$argon2id$v=19$m=65536,t=3,p=4$cqpglz74T76jFG9SXwt1Hg$mS9tIhDIBajxXxp5NcNv/KCGC/zUkZwkeivBzK1lOP4",
+        "files": {}
+    }
+}
