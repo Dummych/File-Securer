@@ -1,4 +1,4 @@
-import visuals
+from visuals import main_art, deb_print, main_help, lang_change
 import json as j
 import os
 import enc
@@ -90,7 +90,7 @@ def str_parcer(str_list):
         elif l == 1:
             cmd = str_list[0]    
     else:
-        cmd = "not_command_error"  
+        deb_print("command_error_uknown", None)  
 
 def info_enc(log, c_files, pth):                         
     enc.encrypt_data(log, c_files, pth) # Словарь меняется в to_enc
@@ -100,8 +100,9 @@ def info_dec(log, c_files, pth):
     enc.decrypt_data(log, c_files, pth) 
     dump_user(user_dict) 
 
-visuals.main_art()
-print("Введите /help для помощи")
+main_art()
+
+deb_print("help_message", None)
 
 while True:
 
@@ -113,8 +114,6 @@ while True:
     
     str_parcer(str_list)
 
-    if cmd == "not_command_error":
-        print("Ошибка: неверный тип команды")
       
     if cmd == "/login":
         log = arg1
@@ -123,11 +122,11 @@ while True:
         if val:
             res = valid_user(log, psw)
             if res:
-                print("Вы успешно вошли!")
+                deb_print("login_success", None)
             if not res:
-                print("Логин или пароль неверны, попробуйте ещё раз") 
+                deb_print("login_failed", None) 
         if not val:
-            print("Ошибка: неправильные аргументы, попробуйте /login <login> <password>")           
+            deb_print("login_args_error", None)          
      
     elif cmd == "/reg":
         log = arg1 
@@ -136,11 +135,11 @@ while True:
         if val:
             res = create_user(log, psw)
             if res:    
-                print("Профиль создан успешно!")
+                deb_print("reg_success", None)
             if not res:
-                print("Ошибка") 
+                deb_print("reg_failed", None)
         if not val:
-            print("Ошибка: неправильные аргументы, попробуйте /reg <login> <password>")            
+            deb_print("reg_args_error", None)           
 
     elif cmd == "/show_Udict":
         print("Debug: ", user_dict) 
@@ -153,7 +152,7 @@ while True:
                 item = key + value
                 print(str(start) + ".", item)
         elif not logged:
-            print("Вам нужно войти в профиль для использования этой команды")
+            deb_print("login_required", None) 
     
 
     elif cmd == "/info_enc":
@@ -161,14 +160,14 @@ while True:
                 pth = arg1
                 info_enc(c_user, c_files, pth)
             elif not logged:
-                print("Вам нужно войти в профиль для использования этой команды")   
+                deb_print("login_required", None)   
 
     elif cmd == "/info_dec":
         if logged:
             pth = arg1
             info_dec(c_user, c_files, pth)
         elif not logged:
-            print("Вам нужно войти в профиль для использования этой команды")   
+            deb_print("login_required", None)    
                 
 
     elif cmd == "/clear_u":
@@ -178,8 +177,20 @@ while True:
         dump_user(user_dict)          
        
     elif cmd == "/help":
-        visuals.main_help()
+        if arg1 == None:
+            main_help()
+        else:
+            deb_print("command_no_args", None)    
     
     elif cmd == "/exit": 
-        break   
+        if arg1 == None:
+            break
+        else:
+            deb_print("command_no_args", None) 
+
+    elif cmd == "/lang":
+        lang = arg1
+        lang_change(arg1)
+    else:
+        deb_print("command_error_unknown", None)   
      
