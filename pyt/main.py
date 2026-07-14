@@ -122,11 +122,11 @@ while True:
         if val:
             res = valid_user(log, psw)
             if res:
-                deb_print("login_success", None)
+                deb_print("login_success")
             if not res:
-                deb_print("login_failed", None) 
+                deb_print("login_failed") 
         if not val:
-            deb_print("login_args_error", None)          
+            deb_print("login_args_error")          
      
     elif cmd == "/reg":
         log = arg1 
@@ -135,11 +135,11 @@ while True:
         if val:
             res = create_user(log, psw)
             if res:    
-                deb_print("reg_success", None)
+                deb_print("reg_success")
             if not res:
-                deb_print("reg_failed", None)
+                deb_print("reg_failed")
         if not val:
-            deb_print("reg_args_error", None)           
+            deb_print("reg_args_error")           
 
     elif cmd == "/show_Udict":
         print("Debug: ", user_dict) 
@@ -152,7 +152,7 @@ while True:
                 item = key + value
                 print(str(start) + ".", item)
         elif not logged:
-            deb_print("login_required", None) 
+            deb_print("login_required") 
     
 
     elif cmd == "/info_enc":
@@ -160,14 +160,14 @@ while True:
                 pth = arg1
                 info_enc(c_user, c_files, pth)
             elif not logged:
-                deb_print("login_required", None)   
+                deb_print("login_required")   
 
     elif cmd == "/info_dec":
         if logged:
             pth = arg1
             info_dec(c_user, c_files, pth)
         elif not logged:
-            deb_print("login_required", None)    
+            deb_print("login_required")    
                 
 
     elif cmd == "/clear_u":
@@ -180,17 +180,18 @@ while True:
         if arg1 == None:
             main_help()
         else:
-            deb_print("command_no_args", None)    
+            deb_print("command_no_args")    
     
     elif cmd == "/exit": 
         if arg1 == None:
             break
         else:
-            deb_print("command_no_args", None) 
+            deb_print("command_no_args") 
 
     elif cmd == "/lang":
         lang = arg1
         lang_change(arg1)
+    
     else:
-        deb_print("command_error_unknown", None)   
+        deb_print("command_error_unknown")   
      

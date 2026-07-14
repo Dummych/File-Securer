@@ -92,7 +92,7 @@ def timer(func):
         begin = time()
         res = func(*args, **kwargs)
         end = time() - begin
-        print("[TIME] Процесс выполнен. Затрачено времени:", end, "секунд")
+        deb_print("timer_succes", end)
         return res
     return wrapper    
 
@@ -106,137 +106,98 @@ def lang_change(n_lang):
             lang = n_lang
             deb_print("lang_changed", n_lang)
         else:
-            deb_print("lang_unknown_error", None)  
+            deb_print("lang_unknown_error")  
     else:
-        deb_print("lang_unknown_error", None)   
+        deb_print("lang_unknown_error")   
 
-def deb_print(value, obj):
+def deb_print(value, obj=None):
     global lang
 
-    if value == "enc_in":
-        flag = "[ENC]"
-        if lang == "RU":
-            print(flag, "Принят файл", obj)
-        elif lang == "EN":
-            print(flag, "Received file", obj)
+    for flag, messages in deb_dict[lang].items():
+        if value in messages:
+            print(flag, messages[value].format(obj=obj))
+            return
 
-    elif value == "enc_out":
-        flag = "[ENC]"
-        if lang == "RU":
-            print(flag, "Зашифрован файл", obj)
-        elif lang == "EN":
-            print(flag, "Encrypted file", obj)
+deb_dict = {
+    "RU": {
+        "[ENC]": {
+            "enc_in": "Принят файл {obj}",
+            "enc_out": "Зашифрован файл {obj}"
+        },
 
-    elif value == "dec_in":
-        flag = "[DEC]"
-        if lang == "RU":
-            print(flag, "Принят файл", obj)
-        elif lang == "EN":
-            print(flag, "Received file", obj)
+        "[DEC]": {
+            "dec_in": "Принят файл {obj}",
+            "dec_out": "Дешифрован файл {obj}"
+        },
 
-    elif value == "dec_out":
-        flag = "[DEC]"
-        if lang == "RU":
-            print(flag, "Дешифрован файл", obj)
-        elif lang == "EN":
-            print(flag, "Decrypted file", obj)
+        "[DIR]": {
+            "dir_none": "Папка {obj} в данный момент пуста",
+            "dir_pth_error": "Файл/папка по такому пути не найден(а), попробуйте ещё раз"
+        },
 
-    elif value == "dir_none":
-        flag = "[DIR]"
-        if lang == "RU":
-            print(flag, "Папка", obj, "в данный момент пуста")
-        elif lang == "EN":
-            print(flag, "Directory", obj, "is currently empty")
+        "[CMD]": {
+            "command_error_unknown": "Ошибка: неизвестная команда",
+            "command_no_args": "Эта команда не принимает аргументов. Попробуйте ещё раз",
 
-    elif value == "dir_pth_error":
-        flag = "[DIR]"
-        if lang == "RU":
-            print(flag, "Файл/папка по такому пути не найден(а), попробуйте ещё раз")
-        elif lang == "EN":
-            print(flag, "File or directory not found. Please try again.")
-    
-    elif value == "command_error_unknown":
-        flag = "[CMD]"
-        if lang == "RU":
-            print(flag, "Ошибка: неизвестная команда")
-        elif lang == "EN":
-            print(flag, "Error: unknown command")
+            "login_success": "Вы успешно вошли!",
+            "login_failed": "Логин или пароль неверны, попробуйте ещё раз",
+            "login_args_error": "Ошибка: неправильные аргументы, попробуйте /login <login> <password>",
 
-    elif value == "command_no_args":
-        flag = "[CMD]"
-        if lang == "RU":
-            print(flag, "Эта команда не требует аргументов. Попробуйте еще раз")
-        elif lang == "EN":
-            print(flag, "This command does not accept any arguments. Please try again.")            
+            "reg_success": "Профиль создан успешно!",
+            "reg_failed": "Ошибка создания профиля, попробуйте ещё раз",
+            "reg_args_error": "Ошибка: неправильные аргументы, попробуйте /reg <login> <password>",
 
-    elif value == "login_success":
-        flag = "[CMD]"
-        if lang == "RU":
-            print(flag, "Вы успешно вошли!")
-        elif lang == "EN":
-            print(flag, "Successfully logged in!")
+            "login_required": "Вам нужно войти в профиль для использования этой команды",
 
-    elif value == "login_failed":
-        flag = "[CMD]"
-        if lang == "RU":
-            print(flag, "Логин или пароль неверны, попробуйте ещё раз")
-        elif lang == "EN":
-            print(flag, "Incorrect login or password. Please try again.")
+            "lang_unknown_error": "Неизвестное значение языка. Попробуйте ещё раз.",
+            "lang_changed": "Язык сменён. Текущий язык: {obj}",
 
-    elif value == "login_args_error":
-        flag = "[CMD]"
-        if lang == "RU":
-            print(flag, "Ошибка: неправильные аргументы, попробуйте /login <login> <password>")
-        elif lang == "EN":
-            print(flag, "Error: invalid arguments. Try /login <login> <password>")
+            "help_message": "Введите /help для получения справки."
+        },
 
-    elif value == "reg_success":
-        flag = "[CMD]"
-        if lang == "RU":
-            print(flag, "Профиль создан успешно!")
-        elif lang == "EN":
-            print(flag, "Profile created successfully!")
+        "[TIME]": {
+            "timer_success": "Процесс выполнен. Затрачено времени: {obj} секунд."
+        }
+    },
 
-    elif value == "reg_failed":
-        flag = "[CMD]"
-        if lang == "RU":
-            print(flag, "Ошибка создания профиля, попробуйте ещё раз")
-        elif lang == "EN":
-            print(flag, "Failed to create profile. Please try again.")
+    "EN": {
+        "[ENC]": {
+            "enc_in": "Received file {obj}",
+            "enc_out": "Encrypted file {obj}"
+        },
 
-    elif value == "reg_args_error":
-        flag = "[CMD]"
-        if lang == "RU":
-            print(flag, "Ошибка: неправильные аргументы, попробуйте /reg <login> <password>")
-        elif lang == "EN":
-            print(flag, "Error: invalid arguments. Try /reg <login> <password>")
+        "[DEC]": {
+            "dec_in": "Received file {obj}",
+            "dec_out": "Decrypted file {obj}"
+        },
 
-    elif value == "login_required":
-        flag = "[CMD]"
-        if lang == "RU":
-            print(flag, "Вам нужно войти в профиль для использования этой команды")
-        elif lang == "EN":
-            print(flag, "You need to log in to use this command.")
+        "[DIR]": {
+            "dir_none": "Directory {obj} is currently empty",
+            "dir_pth_error": "File or directory not found. Please try again."
+        },
 
-    elif value == "lang_unknown_error":
-        flag = "[CMD]"
-        print(flag, "Unknown language value. Please try again.")
+        "[CMD]": {
+            "command_error_unknown": "Error: unknown command",
+            "command_no_args": "This command does not accept any arguments. Please try again.",
 
-    elif value == "lang_changed":
-        flag = "[CMD]"
-        if lang == "RU":
-            print(flag, "Язык сменён. Текущий язык:", obj)
-        elif lang == "EN":
-            print(flag, "Language changed. Current language:", obj)         
+            "login_success": "Successfully logged in!",
+            "login_failed": "Incorrect login or password. Please try again.",
+            "login_args_error": "Error: invalid arguments. Try /login <login> <password>",
 
-    elif value == "help_message":
-        flag = "[CMD]"
-        print(flag, "Type /help for manual.")
+            "reg_success": "Profile created successfully!",
+            "reg_failed": "Failed to create profile. Please try again.",
+            "reg_args_error": "Error: invalid arguments. Try /reg <login> <password>",
 
-    elif value == "timer_succes":
-        flag = "[TIME]"
-        if lang == "RU":
-            print(flag, "Процесс выполнен. Затрачено времени:", obj, "секунд")
-        elif lang == "EN":
-            print(flag, "Process completed. Time taken:", obj, "seconds.")         
+            "login_required": "You need to log in to use this command.",
 
+            "lang_unknown_error": "Unknown language value. Please try again.",
+            "lang_changed": "Language changed. Current language: {obj}",
+
+            "help_message": "Type /help for help."
+        },
+
+        "[TIME]": {
+            "timer_success": "Process completed. Time taken: {obj} seconds."
+        }
+    }
+}
