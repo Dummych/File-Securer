@@ -90,7 +90,7 @@ def str_parcer(str_list):
         elif l == 1:
             cmd = str_list[0]    
     else:
-        deb_print("command_error_uknown", None)  
+        deb_print("command_error_uknown")  
 
 def info_enc(log, c_files, pth):                         
     enc.encrypt_data(log, c_files, pth) # Словарь меняется в to_enc
@@ -102,7 +102,7 @@ def info_dec(log, c_files, pth):
 
 main_art()
 
-deb_print("help_message", None)
+deb_print("help_message")
 
 while True:
 
